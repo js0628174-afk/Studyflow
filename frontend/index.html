@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>StudyFlow</title>
+  <title>StudyFlow AI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>StudyFlow Dashboard</h1>
+  <h1>StudyFlow AI Dashboard</h1>
 
-  <h2>Today's Tasks</h2>
-  <ul>
-    <li>Math Homework</li>
-    <li>Biology Notes</li>
-    <li>English Essay Draft</li>
-  </ul>
+  <section>
+    <h2>Today's Tasks</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+  </section>
 
-  <h2>Weekly Goals</h2>
-  <ul>
-    <li>Finish Algebra Chapter 3</li>
-    <li>Complete 2 SAT practice sets</li>
-  </ul>
+  <section>
+    <h2>Weekly Goals</h2>
+    <input type="text" id="goalInput" placeholder="Enter a goal">
+    <button onclick="addGoal()">Add Goal</button>
+    <ul id="goalList"></ul>
+  </section>
 
-  <h2>Progress</h2>
-  <p>Completed Tasks: 5</p>
-  <p>Pending Tasks: 3</p>
+  <section>
+    <h2>Progress Dashboard</h2>
+    <p>Completed Tasks: <span id="completedCount">0</span></p>
+    <p>Pending Tasks: <span id="pendingCount">0</span></p>
+  </section>
 
-  <button>Add Task</button>
-  <button>Add Goal</button>
+  <section>
+    <h2>AI Study Assistant</h2>
+    <p>Coming soon: note summarizer, quiz generator, and flashcards.</p>
+    <button>Generate Quiz</button>
+    <button>Summarize Notes</button>
+  </section>
+
+  <script src="app.js"></script>
 </body>
 </html>
