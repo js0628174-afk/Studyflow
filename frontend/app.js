@@ -102,8 +102,10 @@ function updateDashboard() {
   const completed = tasks.filter(task => task.completed).length;
   const pending = tasks.length - completed;
 
+  
   document.getElementById("completedCount").textContent = completed;
-  document.getElementById("pendingCount").textContent = pending;
+document.getElementById("pendingCount").textContent = pending;
+  document.getElementById("goalCount").textContent = goals.length;
 }
 
 renderTasks();
