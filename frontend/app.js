@@ -1,160 +1,111 @@
-// ===============================
-// STUDYFLOW AI
-// Main JavaScript File
-// Version 1.0
-// ===============================
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let goals = JSON.parse(localStorage.getItem("goals")) || [];
 
-let tasks = [];
-let goals = [];
-
-// ---------- TASKS ----------
+function saveData() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("goals", JSON.stringify(goals));
+}
 
 function addTask() {
+  const input = document.getElementById("taskInput");
+  const text = input.value.trim();
 
-    const input = document.getElementById("taskInput");
+  if (text === "") {
+    alert("Please enter a task.");
+    return;
+  }
 
-    const text = input.value.trim();
+  tasks.push({
+    text: text,
+    completed: false
+  });
 
-    if(text === ""){
-        alert("Please enter a task.");
-        return;
+  input.value = "";
+  saveData();
+  renderTasks();
+  updateDashboard();
+}
+
+function renderTasks() {
+  const list = document.getElementById("taskList");
+  list.innerHTML = "";
+
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.textContent = task.text;
+
+    if (task.completed) {
+      li.style.textDecoration = "line-through";
     }
 
-    tasks.push({
-        text:text,
-        completed:false
-    });
+    const done = document.createElement("button");
+    done.textContent = "✓";
+    done.onclick = function () {
+      tasks[index].completed = !tasks[index].completed;
+      saveData();
+      renderTasks();
+      updateDashboard();
+    };
 
-    input.value="";
+    const remove = document.createElement("button");
+    remove.textContent = "🗑";
+    remove.onclick = function () {
+      tasks.splice(index, 1);
+      saveData();
+      renderTasks();
+      updateDashboard();
+    };
 
-    renderTasks();
-
-    updateDashboard();
-
+    li.appendChild(done);
+    li.appendChild(remove);
+    list.appendChild(li);
+  });
 }
 
-function renderTasks(){
+function addGoal() {
+  const input = document.getElementById("goalInput");
+  const text = input.value.trim();
 
-    const list=document.getElementById("taskList");
+  if (text === "") {
+    alert("Please enter a goal.");
+    return;
+  }
 
-    list.innerHTML="";
-
-    tasks.forEach((task,index)=>{
-
-        const li=document.createElement("li");
-
-        li.textContent=task.text;
-
-        if(task.completed){
-
-            li.style.textDecoration="line-through";
-
-        }
-
-        const done=document.createElement("button");
-
-        done.textContent="✓";
-
-        done.onclick=function(){
-
-            tasks[index].completed=true;
-
-            renderTasks();
-
-            updateDashboard();
-
-        };
-
-        const remove=document.createElement("button");
-
-        remove.textContent="🗑";
-
-        remove.onclick=function(){
-
-            tasks.splice(index,1);
-
-            renderTasks();
-
-            updateDashboard();
-
-        };
-
-        li.appendChild(done);
-
-        li.appendChild(remove);
-
-        list.appendChild(li);
-
-    });
-
+  goals.push(text);
+  input.value = "";
+  saveData();
+  renderGoals();
 }
 
-// ---------- GOALS ----------
+function renderGoals() {
+  const list = document.getElementById("goalList");
+  list.innerHTML = "";
 
-function addGoal(){
+  goals.forEach((goal, index) => {
+    const li = document.createElement("li");
+    li.textContent = goal;
 
-    const input=document.getElementById("goalInput");
+    const remove = document.createElement("button");
+    remove.textContent = "🗑";
+    remove.onclick = function () {
+      goals.splice(index, 1);
+      saveData();
+      renderGoals();
+    };
 
-    const text=input.value.trim();
-
-    if(text===""){
-
-        alert("Please enter a goal.");
-
-        return;
-
-    }
-
-    goals.push(text);
-
-    input.value="";
-
-    renderGoals();
-
+    li.appendChild(remove);
+    list.appendChild(li);
+  });
 }
 
-function renderGoals(){
+function updateDashboard() {
+  const completed = tasks.filter(task => task.completed).length;
+  const pending = tasks.length - completed;
 
-    const list=document.getElementById("goalList");
-
-    list.innerHTML="";
-
-    goals.forEach((goal,index)=>{
-
-        const li=document.createElement("li");
-
-        li.textContent=goal;
-
-        const remove=document.createElement("button");
-
-        remove.textContent="🗑";
-
-        remove.onclick=function(){
-
-            goals.splice(index,1);
-
-            renderGoals();
-
-        };
-
-        li.appendChild(remove);
-
-        list.appendChild(li);
-
-    });
-
+  document.getElementById("completedCount").textContent = completed;
+  document.getElementById("pendingCount").textContent = pending;
 }
 
-// ---------- DASHBOARD ----------
-
-function updateDashboard(){
-
-    const completed=tasks.filter(task=>task.completed).length;
-
-    const pending=tasks.length-completed;
-
-    document.getElementById("completedCount").textContent=completed;
-
-    document.getElementById("pendingCount").textContent=pending;
-
-}
+renderTasks();
+renderGoals();
+updateDashboard();
