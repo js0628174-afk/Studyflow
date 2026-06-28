@@ -120,3 +120,40 @@ document.getElementById("currentDate").textContent =
     month: "long",
     day: "numeric"
   });
+function summarizeNotes() {
+  const notes = document.getElementById("notesInput").value.trim();
+  const output = document.getElementById("aiOutput");
+
+  if (notes === "") {
+    output.innerHTML = "<p>Please paste notes first.</p>";
+    return;
+  }
+
+  const sentences = notes.split(".");
+  const summary = sentences.slice(0, 2).join(".") + ".";
+
+  output.innerHTML = `
+    <h3>AI Summary</h3>
+    <p>${summary}</p>
+    <p><strong>Key Focus:</strong> Review the main ideas.</p>
+  `;
+}
+
+function generateQuiz() {
+  const notes = document.getElementById("notesInput").value.trim();
+  const output = document.getElementById("aiOutput");
+
+  if (notes === "") {
+    output.innerHTML = "<p>Please paste notes first.</p>";
+    return;
+  }
+
+  output.innerHTML = `
+    <h3>Practice Quiz</h3>
+    <ol>
+      <li>What is the main topic?</li>
+      <li>Explain it in your own words.</li>
+      <li>Give one example.</li>
+    </ol>
+  `;
+}
