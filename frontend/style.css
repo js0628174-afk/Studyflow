@@ -143,3 +143,14 @@ li button {
     grid-template-columns: 1fr;
   }
 }
+.ai-output{
+    margin-top:15px;
+    padding:15px;
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    border-radius:10px;
+}
+
+.ai-output h3{
+    margin-top:0;
+}
