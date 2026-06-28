@@ -111,3 +111,12 @@ document.getElementById("pendingCount").textContent = pending;
 renderTasks();
 renderGoals();
 updateDashboard();
+const today = new Date();
+
+document.getElementById("currentDate").textContent =
+  today.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
