@@ -75,9 +75,10 @@
         <div class="panel ai-panel">
           <h2>AI Study Assistant</h2>
           <p>Summarize notes, generate quizzes, and create flashcards.</p>
-          <textarea placeholder="Paste your notes here..."></textarea>
-          <button>Summarize Notes</button>
-          <button>Generate Quiz</button>
+         <textarea id="notesInput" placeholder="Paste your notes here..."></textarea>
+<button onclick="summarizeNotes()">Summarize Notes</button>
+<button onclick="generateQuiz()">Generate Quiz</button>
+<div id="aiOutput" class="ai-output"></div>
         </div>
 
         <div class="panel">
