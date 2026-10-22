@@ -1,97 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>StudyFlow AI</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow AI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <aside class="sidebar">
+        <h2>StudyFlow AI</h2>
+        <nav>
+          <a href="#">Dashboard</a>
+          <a href="#">Tasks</a>
+          <a href="#">Goals</a>
+          <a href="#">AI Coach</a>
+          <a href="#">Progress</a>
+        </nav>
+      </aside>
 
-  <div class="app-container">
-
-    <aside class="sidebar">
-      <h2>StudyFlow AI</h2>
-      <nav>
-        <a href="#">Dashboard</a>
-        <a href="#">Tasks</a>
-        <a href="#">Goals</a>
-        <a href="#">AI Coach</a>
-        <a href="#">Progress</a>
-      </nav>
-    </aside>
-
-    <main class="main-content">
-      <header class="topbar">
-    <div>
-        <h1 id="welcomeMessage">Welcome back 👋</h1>
-<p id="currentDate"></p>
-<p>Your AI-powered student success dashboard.</p>
-    </div>
-</header>
-
-      <section class="stats-grid">
-        <div class="card">
-          <h3>Completed</h3>
-          <p><span id="completedCount">0</span> tasks</p>
-        </div>
-
-        <div class="card">
-          <h3>Pending</h3>
-          <p><span id="pendingCount">0</span> tasks</p>
-        </div>
-
-        <div class="card">
-          <h3>Study Streak</h3>
-          <p>3 days 🔥</p>
-        </div>
-
-        <div class="card">
-          <h3>Productivity</h3>
-          <p>Growing 📈</p>
-        </div><div class="card">
-  <h3>Total Goals</h3>
-  <p><span id="goalCount">0</span></p>
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <h1 id="welcomeMessage">Welcome back 👋</h1>
+            <p id="currentDate"></p>
+            <p>Your AI-powered student success dashboard.</p>
+          </div>
+        </header>
+<div id="smartReminder" class="smart-reminder"></div>
+<div class="notification-controls">
+  <button id="enableNotificationsBtn" onclick="enableNotifications()">
+    🔔 Enable Deadline Notifications
+  </button>
+  <p id="notificationStatus" aria-live="polite">
+    Notifications are not enabled.
+  </p>
 </div>
-      </section>
-
-      <section class="dashboard-grid">
-        <div class="panel">
-          <h2>Today's Tasks</h2>
-          <div class="input-row">
-            <input type="text" id="taskInput" placeholder="Add a task...">
-            <button onclick="addTask()">Add</button>
+        <section class="stats-grid">
+          <div class="card">
+            <h3>Completed</h3>
+            <p><span id="completedCount">0</span> tasks</p>
           </div>
-          <ul id="taskList"></ul>
-        </div>
 
-        <div class="panel">
-          <h2>Weekly Goals</h2>
-          <div class="input-row">
-            <input type="text" id="goalInput" placeholder="Add a goal...">
-            <button onclick="addGoal()">Add</button>
+          <div class="card">
+            <h3>Pending</h3>
+            <p><span id="pendingCount">0</span> tasks</p>
           </div>
-          <ul id="goalList"></ul>
-        </div>
 
-        <div class="panel ai-panel">
-          <h2>AI Study Assistant</h2>
-          <p>Summarize notes, generate quizzes, and create flashcards.</p>
-         <textarea id="notesInput" placeholder="Paste your notes here..."></textarea>
-<button onclick="summarizeNotes()">Summarize Notes</button>
-<button onclick="generateQuiz()">Generate Quiz</button>
-<div id="aiOutput" class="ai-output"></div>
-        </div>
+          <div class="card">
+            <h3>Study Streak</h3>
+            <p>3 days 🔥</p>
+          </div>
 
-        <div class="panel">
-          <h2>Upcoming</h2>
-          <p>Math Assignment — Friday</p>
-          <p>SAT Practice — Sunday</p>
-          <p>Science Quiz — Next Week</p>
-        </div>
-      </section>
-    </main>
+          <div class="card">
+            <h3>Productivity</h3>
+            <p>Growing 📈</p>
+          </div>
+          <div class="card">
+            <h3>Total Goals</h3>
+            <p><span id="goalCount">0</span></p>
+          </div>
+          <div class="card">
+    <h3>Study Progress</h3>
+    <progress id="progressBar" value="0" max="100"></progress>
+    <p><span id="progressText">0%</span> Complete</p>
+</div>
+        </section>
 
+        <section class="dashboard-grid">
+  <div class="panel">
+    <h2>Today's Tasks</h2>
+
+    <input
+      type="text"
+      id="taskSearch"
+      placeholder="Search tasks..."
+      oninput="renderTasks()"
+    />
+
+    <div class="input-row">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Add a task..."
+      />
+
+      <select id="prioritySelect">
+        <option value="High">🔴 High</option>
+        <option value="Medium" selected>🟡 Medium</option>
+        <option value="Low">🟢 Low</option>
+      </select>
+
+      <input type="date" id="dueDate" />
+
+      <button onclick="addTask()">Add</button>
+    </div>
+
+    <ul id="taskList"></ul>
+    <button onclick="clearCompletedTasks()" class="clear-completed-btn">
+  Clear Completed Tasks
+</button>
   </div>
+          <div class="panel">
+            <h2>Weekly Goals</h2>
+            <div class="input-row">
+              <input type="text" id="goalInput" placeholder="Add a goal..." />
+              <button onclick="addGoal()">Add</button>
+            </div>
+            <ul id="goalList"></ul>
+          </div>
 
-  <script src="app.js"></script>
-</body>
+          <div class="panel ai-panel">
+            <h2>AI Study Assistant</h2>
+            <p>Summarize notes, generate quizzes, and create flashcards.</p>
+            <textarea
+              id="notesInput"
+              placeholder="Paste your notes here..."
+            ></textarea>
+            <button onclick="summarizeNotes()">Summarize Notes</button>
+            <button onclick="generateQuiz()">Generate Quiz</button>
+            <button onclick="generateFlashcards()">Create Flashcards</button>
+            <button onclick="generateStudyPlan()">AI Study Coach</button>
+            <div id="aiOutput" class="ai-output"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Upcoming</h2>
+            <p>Math Assignment — Friday</p>
+            <p>SAT Practice — Sunday</p>
+            <p>Science Quiz — Next Week</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
 </html>
